@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -14,6 +15,9 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -24,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     TextView noSongsText;
     ArrayList<AudioModel> songsList = new ArrayList<>();
 
+    BottomNavigationView bottomNav;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.rv_songs);
         noSongsText = findViewById(R.id.tv_no_songs);
+
+        bottomNav = findViewById(R.id.nav_bar);
+        bottomNav.setOnItemSelectedListener(navListener);
+        bottomNav.setSelectedItemId(R.id.songs_menu);
 
         if(!checkPermission()){
             requestPermission();
@@ -64,6 +74,27 @@ public class MainActivity extends AppCompatActivity {
             recyclerView.setAdapter(new MusicListAdapter(songsList, getApplicationContext()));
         }
     }
+
+
+    private final NavigationBarView.OnItemSelectedListener navListener = item -> {
+        int itemId = item.getItemId();
+        if (itemId == R.id.playback_menu){
+            if (MyMediaPlayer.currentIndex == -1) {
+                Toast.makeText(MainActivity.this, "no music is currently playing", Toast.LENGTH_SHORT).show();
+            } else {
+                Intent intent = new Intent(getApplicationContext(), MusicPlayerActivity.class);
+                MyMediaPlayer.fromNavBar = true;
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                getApplicationContext().startActivity(intent);
+            }
+        } else if (itemId == R.id.playlists_menu){
+            Intent i = new Intent(getApplicationContext(), PlaylistActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            MyMediaPlayer.songQueue = songsList; // temporary line for temporary playlist
+            getApplicationContext().startActivity(i);
+        }
+        return true;
+    };
 
     boolean checkPermission() {
         int result = ContextCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.READ_EXTERNAL_STORAGE);

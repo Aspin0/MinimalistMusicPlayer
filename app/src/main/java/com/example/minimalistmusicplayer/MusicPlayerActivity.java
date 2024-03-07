@@ -2,12 +2,17 @@ package com.example.minimalistmusicplayer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,9 +43,10 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
         titleTv.setSelected(true);
 
-        songsList = (ArrayList<AudioModel>) getIntent().getSerializableExtra("LIST");
-
+        songsList = MyMediaPlayer.songQueue;
+        
         setResourcesWithMusic();
+
 
         // method called every 100 milliseconds to constantly update seek bar and time
         // also changes play/pause button icon
@@ -92,7 +98,9 @@ public class MusicPlayerActivity extends AppCompatActivity {
         nextBtn.setOnClickListener(v-> playNextSong());
         previousBtn.setOnClickListener(v-> playPreviousSong());
 
-        playMusic();
+        if (MyMediaPlayer.fromNavBar == false){
+            playMusic();
+        }
     }
 
     private void playMusic() {
@@ -114,6 +122,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
         }
         MyMediaPlayer.currentIndex += 1;
         mediaPlayer.reset();
+        MyMediaPlayer.fromNavBar = false;
         setResourcesWithMusic();
     }
 
@@ -123,6 +132,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
         }
         MyMediaPlayer.currentIndex -= 1;
         mediaPlayer.reset();
+        MyMediaPlayer.fromNavBar = false;
         setResourcesWithMusic();
     }
 

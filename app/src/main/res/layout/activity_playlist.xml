@@ -2,15 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".PlaylistActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_songs"
-        android:text="Songs"
+        android:id="@+id/tv_playlists"
+        android:text="Playlists"
         android:textSize="20sp"
         android:textStyle="bold"
         android:padding="10dp"
@@ -20,8 +21,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_no_songs"
-        android:text="No songs found"
+        android:id="@+id/tv_no_playlists"
+        android:text="No Playlists Found"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:textStyle="bold"
@@ -33,8 +34,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/rv_songs"
-        android:layout_below="@id/tv_songs"
+        android:id="@+id/rv_playlists"
+        android:layout_below="@id/tv_playlists"
 
         />
 
@@ -42,7 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:id="@+id/nav_bar"
+        android:id="@+id/nav_bar_playlist"
         app:menu="@menu/bottom_nav">
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>

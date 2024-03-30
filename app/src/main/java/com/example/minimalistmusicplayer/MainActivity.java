@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (itemId == R.id.playlists_menu){
             Intent i = new Intent(getApplicationContext(), PlaylistActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            MyMediaPlayer.songQueue = songsList; // temporary line for temporary playlist
+            MyMediaPlayer.songsList = songsList;
             getApplicationContext().startActivity(i);
         }
         return true;

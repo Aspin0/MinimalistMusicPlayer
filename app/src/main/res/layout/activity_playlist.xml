@@ -18,6 +18,17 @@
         android:layout_centerHorizontal="true"
         />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_create"
+        android:backgroundTint="#3972B8"
+        app:icon="@drawable/baseline_add_24"
+        android:text="Create"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,9 +43,9 @@
         />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/rv_playlists"
+        android:layout_width="match_parent"
+        android:layout_height="582dp"
         android:layout_below="@id/tv_playlists"
 
         />

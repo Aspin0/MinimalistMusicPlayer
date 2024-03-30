@@ -16,6 +16,12 @@
         android:theme="@style/Theme.MinimalistMusicPlayer"
         tools:targetApi="31">
         <activity
+            android:name=".PlaylistCreationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PlaylistViewActivity"
+            android:exported="false" />
+        <activity
             android:name=".PlaylistActivity"
             android:exported="false" />
         <activity

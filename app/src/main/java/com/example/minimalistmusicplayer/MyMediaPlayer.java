@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class MyMediaPlayer {
     static MediaPlayer instance;
     public static int currentIndex = -1;
+    public static ArrayList<AudioModel> songsList; // List of all songs read from files
     public static ArrayList<AudioModel> songQueue;
     public static boolean fromNavBar;
 

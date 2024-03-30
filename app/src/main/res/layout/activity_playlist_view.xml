@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PlaylistViewActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_playlist_name"
+        android:text="Playlist Name"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:padding="10dp"
+        android:layout_centerHorizontal="true"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_playlist_description"
+        android:text="Playlist Description"
+        android:textSize="15sp"
+        android:padding="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/tv_playlist_name"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_empty_playlist"
+        android:text="Playlist is empty"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:padding="10dp"
+        android:visibility="gone"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_layout"
+        android:padding="20dp"
+        android:layout_below="@+id/tv_playlist_description">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_play"
+            android:backgroundTint="#3972B8"
+            android:text="Play"
+            app:icon="@drawable/baseline_play_arrow_24"
+            android:layout_alignParentLeft="true"/>
+
+        <Button
+            android:id="@+id/button_shuffle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:backgroundTint="#3972B8"
+            android:text="Shuffle"
+            app:icon="@drawable/baseline_shuffle_24" />
+
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rv_playlist_songs"
+        android:layout_below="@id/button_layout"
+
+        />
+
+</RelativeLayout>

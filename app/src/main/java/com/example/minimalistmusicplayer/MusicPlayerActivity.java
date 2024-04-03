@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -15,14 +16,16 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 public class MusicPlayerActivity extends AppCompatActivity {
 
     TextView titleTv,currentTimeTv,totalTimeTv;
     SeekBar seekBar;
-    ImageView pausePlay,nextBtn,previousBtn;
+    ImageView pausePlay,nextBtn,previousBtn,queueBtn,shuffleBtn;
 
     ArrayList<AudioModel> songsList;
     AudioModel currentSong;
@@ -40,6 +43,13 @@ public class MusicPlayerActivity extends AppCompatActivity {
         pausePlay = findViewById(R.id.pause_play);
         nextBtn = findViewById(R.id.next);
         previousBtn = findViewById(R.id.previous);
+        queueBtn = findViewById(R.id.queue_button);
+        shuffleBtn = findViewById(R.id.shuffle_button);
+        if (!MyMediaPlayer.shuffle) {
+            shuffleBtn.setImageResource(R.drawable.baseline_shuffle_24);
+        } else {
+            shuffleBtn.setImageResource(R.drawable.baseline_shuffle_on_24);
+        }
 
         titleTv.setSelected(true);
 
@@ -50,6 +60,8 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
         // method called every 100 milliseconds to constantly update seek bar and time
         // also changes play/pause button icon
+
+
         MusicPlayerActivity.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -66,6 +78,8 @@ public class MusicPlayerActivity extends AppCompatActivity {
                 new Handler().postDelayed(this, 100);
             }
         });
+
+
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -88,6 +102,12 @@ public class MusicPlayerActivity extends AppCompatActivity {
         });
     }
 
+    public void goToQueueActivity(View view) {
+        Intent i = new Intent(getApplicationContext(), QueueActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getApplicationContext().startActivity(i);
+    }
+
     void setResourcesWithMusic(){
         currentSong = songsList.get(MyMediaPlayer.currentIndex);
 
@@ -98,8 +118,46 @@ public class MusicPlayerActivity extends AppCompatActivity {
         nextBtn.setOnClickListener(v-> playNextSong());
         previousBtn.setOnClickListener(v-> playPreviousSong());
 
+
         if (MyMediaPlayer.fromNavBar == false){
             playMusic();
+        } else {
+            Integer i = mediaPlayer.getCurrentPosition();
+            mediaPlayer.reset();
+            playMusic();
+            mediaPlayer.seekTo(i);
+        }
+    }
+
+    public void shuffleQueue(View view) {
+        if (!MyMediaPlayer.shuffle) {
+            shuffleBtn.setImageResource(R.drawable.baseline_shuffle_on_24);
+            MyMediaPlayer.shuffle = true;
+            MyMediaPlayer.beforeShuffle = new ArrayList<>();
+
+            for (int i = MyMediaPlayer.currentIndex + 1; i < MyMediaPlayer.songQueue.size(); i++){
+                MyMediaPlayer.beforeShuffle.add(MyMediaPlayer.songQueue.get(i));
+            }
+
+            ArrayList<AudioModel> list = new ArrayList<>(MyMediaPlayer.songQueue);
+            list.remove(MyMediaPlayer.currentIndex);
+            Collections.shuffle(list);
+            ArrayList<AudioModel> shuffleList = new ArrayList<>();
+            shuffleList.add(songsList.get(MyMediaPlayer.currentIndex));
+            list.remove(songsList.get(MyMediaPlayer.currentIndex));
+            shuffleList.addAll(list);
+            MyMediaPlayer.currentIndex = 0;
+            MyMediaPlayer.songQueue = shuffleList;
+            songsList = shuffleList;
+
+
+        } else {
+            shuffleBtn.setImageResource(R.drawable.baseline_shuffle_24);
+            MyMediaPlayer.shuffle = false;
+
+            MyMediaPlayer.songQueue.subList(MyMediaPlayer.currentIndex + 1, MyMediaPlayer.songQueue.size()).clear();
+            MyMediaPlayer.songQueue.addAll(MyMediaPlayer.beforeShuffle);
+            songsList = MyMediaPlayer.songQueue;
         }
     }
 
@@ -142,6 +200,12 @@ public class MusicPlayerActivity extends AppCompatActivity {
         } else {
             mediaPlayer.start();
         }
+    }
+
+    public void goBackToSongs(View view) {
+        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getApplicationContext().startActivity(i);
     }
 
     public static String convertTime(String duration){

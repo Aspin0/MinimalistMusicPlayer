@@ -42,6 +42,18 @@
         android:visibility="gone"
         />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#FFFFFF"
+        app:icon="@drawable/baseline_arrow_back_24"
+        app:iconTint="#3f7ad9"
+        android:text="Back"
+        android:textColor="#3f7ad9"
+        android:textSize="18dp"
+        android:onClick="goBackToPlaylists"
+        />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -56,16 +68,9 @@
             android:backgroundTint="#3972B8"
             android:text="Play"
             app:icon="@drawable/baseline_play_arrow_24"
-            android:layout_alignParentLeft="true"/>
-
-        <Button
-            android:id="@+id/button_shuffle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:backgroundTint="#3972B8"
-            android:text="Shuffle"
-            app:icon="@drawable/baseline_shuffle_24" />
+            android:layout_alignParentStart="true"
+            android:onClick="playPlaylist"
+            />
 
     </RelativeLayout>
 

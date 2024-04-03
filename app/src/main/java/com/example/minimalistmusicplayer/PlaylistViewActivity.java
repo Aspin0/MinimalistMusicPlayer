@@ -1,6 +1,8 @@
 package com.example.minimalistmusicplayer;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -18,7 +20,7 @@ public class PlaylistViewActivity extends AppCompatActivity {
     PlaylistModel playlistData;
 
     TextView titleText, descriptionText, noSongsText;
-    Button playButton, shuffleButton;
+    Button playButton;
     RecyclerView recyclerView;
 
 
@@ -31,7 +33,6 @@ public class PlaylistViewActivity extends AppCompatActivity {
         descriptionText = findViewById(R.id.tv_playlist_description);
         noSongsText = findViewById(R.id.tv_empty_playlist);
         playButton = findViewById(R.id.button_play);
-        shuffleButton = findViewById(R.id.button_shuffle);
         recyclerView = findViewById(R.id.rv_playlist_songs);
 
 
@@ -47,5 +48,22 @@ public class PlaylistViewActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new MusicListAdapter(playlistData.getList(), getApplicationContext()));
 
+    }
+
+    public void goBackToPlaylists(View view) {
+        Intent i = new Intent(getApplicationContext(), PlaylistActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getApplicationContext().startActivity(i);
+    }
+
+    public void playPlaylist(View view) {
+        MyMediaPlayer.getInstance().reset();
+        MyMediaPlayer.currentIndex = 0;
+        Intent intent = new Intent(getApplicationContext(), MusicPlayerActivity.class);
+        MyMediaPlayer.songQueue = playlistData.getList();
+        MyMediaPlayer.fromNavBar = false;
+        MyMediaPlayer.shuffle = false;
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getApplicationContext().startActivity(intent);
     }
 }

@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.ViewHolder> {
 
     ArrayList<AudioModel> songsList;
+    ArrayList<AudioModel> toBeQueued;
     Context context;
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -31,7 +32,13 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
 
     public MusicListAdapter(ArrayList<AudioModel> songsList, Context applicationContext) {
         this.songsList = songsList;
+        this.toBeQueued = songsList;
         this.context = applicationContext;
+    }
+
+    public void setFilteredList(ArrayList<AudioModel> filteredList){
+        this.songsList = filteredList;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -53,8 +60,11 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
                 MyMediaPlayer.getInstance().reset();
                 MyMediaPlayer.currentIndex = position;
                 Intent intent = new Intent(context, MusicPlayerActivity.class);
+
                 MyMediaPlayer.songQueue = songsList;
+
                 MyMediaPlayer.fromNavBar = false;
+                MyMediaPlayer.shuffle = false;
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
